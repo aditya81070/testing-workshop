@@ -38,12 +38,13 @@ test('calls onSubmit with the username and password when submitted', () => {
   // Act
   usernameNode.value = fakeUser.username
   passwordNode.value = fakeUser.password
-  Simulate.submit(formNode)
 
+  document.body.appendChild(container)
+  getByText('submit').click()
   // Assert
   expect(handleSubmit).toHaveBeenCalledTimes(1)
   expect(handleSubmit).toHaveBeenCalledWith(fakeUser)
-  expect(submitButtonNode.type).toBe('submit')
+  document.body.removeChild(container)
 })
 
 //////// Elaboration & Feedback /////////
