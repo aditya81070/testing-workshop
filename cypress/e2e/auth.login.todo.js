@@ -9,6 +9,19 @@ describe('authentication', () => {
   beforeEach(() => cy.logout())
 
   it('should allow existing users to login', () => {
+    cy.createNewUser().then(user => {
+      cy.visitApp('/')
+        .getByText('login')
+        .click()
+        .getByLabelText('username')
+        .type(user.username)
+        .getByLabelText('password')
+        .type(user.password)
+        .getByText('submit')
+        .click()
+        .assertRoute('/')
+      cy.getByTestId('username-display').should('contain', user.username)
+    })
     // you'll want to first create a new user.
     // This custom cypress command is similar to a promise, so you can do:
     // cy.createNewUser().then(user => {
